@@ -67,10 +67,10 @@ class CustomeUserCreationForm(UserCreationForm):
         return self.user
     
 
-#The user can login with his email or his username
-class EmailLogInForm(forms.Form):
+#The user can login with his email
+class LoginForm(forms.Form):
 
-    email = forms.EmailField(
+    email = forms.CharField(
         required=True,
         widget=forms.EmailInput
         )
@@ -79,11 +79,6 @@ class EmailLogInForm(forms.Form):
         required=True,
         widget=forms.PasswordInput
         )
-
-
-class UsernameLogInForm(forms.Form):
-    username = forms.CharField(required=True)
-    password = forms.CharField(required=True, widget=forms.PasswordInput)
 
 
 class ChangeEmailForm(forms.Form):
@@ -105,7 +100,6 @@ class ChangeEmailForm(forms.Form):
         required=True
         )
 
-    #This function make the parent and the child
     def __init__(self, user, *args, **kwargs):
         self.user = user
         super(ChangeEmailForm, self).__init__(*args, **kwargs)

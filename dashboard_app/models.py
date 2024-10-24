@@ -15,5 +15,8 @@ class EmailVerification(models.Model):
 
     @property
     def token_expiration_time(self):
-        expiration_time = timezone.timedelta(minutes=10)
+        expiration_time = timezone.timedelta(minutes=15)
         return timezone.now() > self.created_at + expiration_time
+    
+class DiplayCsvFile(models.Model):
+    file = models.FileField(upload_to='media')
