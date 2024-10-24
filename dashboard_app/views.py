@@ -30,7 +30,7 @@ def signup(request):
             email_subject = "Activez votre compte"
             email_body = f"Bonjour {user.username},\n\nCliquez sur le lien pour activer votre compte:\n\n {activation_url}"
             email = EmailMessage(email_subject, email_body, to=[user.email])
-            email.send()
+            email.send(fail_silently=False)
 
             return redirect('email_confirmation')
         
@@ -76,7 +76,7 @@ def resend_activation_email(request, user_id):
         email_subject = "Activez votre compte"
         email_body = f"Bonjour {user.username},\n\nCliquez sur le lien pour activer votre compte:\n\n {activation_url}"
         email = EmailMessage(email_subject, email_body, to=[user.email])
-        email.send()
+        email.send(fail_silently=False)
         messages.success("Vérifiez vos mails pour confirmer votre compte")
 
         return redirect('email_confirmation')
