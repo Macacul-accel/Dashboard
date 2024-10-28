@@ -6,23 +6,26 @@ from .models import EmailVerification
 from django.utils.translation import gettext_lazy as _
 
 
-class CustomeUserCreationForm(UserCreationForm):
+class CustomUserCreationForm(UserCreationForm):
 
     username = forms.CharField(
         required=True,
-        unique=True
         )
     
     email = forms.EmailField(
         widget=forms.EmailInput,
         required=True,
-        unique=True
         )
     
-    password = forms.CharField(
+    password1 = forms.CharField(
         widget=forms.PasswordInput,
         required=True
         )
+    
+    password2 = forms.CharField(
+        widget=forms.PasswordInput,
+        required=True
+    )
 
     class Meta:
         model = User
@@ -39,27 +42,27 @@ class CustomeUserCreationForm(UserCreationForm):
         email = self.cleaned_data.get('email')
 
         if User.objects.filter(email=email).exists():
-            raise forms.ValidationError("Cette adresse mail existe déjà")
+            self.add_error('email', "Cette adresse mail existe déjà")
 
     #The password should contain at least one uppercase letter, one lowercase letter and one digit
     def clean_password(self):
-        password = self.cleaned_data.get('password')
+        password = self.cleaned_data.get('password1')
         password_regex = re.compile(r"^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")
 
         if len(password) < 8:
-            raise forms.ValidationError("Votre MDP doit faire au minimum 8 caractères.")
+            self.add_error('password1', "Votre MDP doit contenir au minimum 8 caractères.")
         
         if not password_regex.match(password):
-            raise forms.ValidationError(
+            self.add_error('password1',
             "Votre MDP doit contenir au moins une lettre majuscule, une lettre minuscule ainsi qu'un chiffre."
             )
     
     def save(self, commit=True):
-        user = super(CustomeUserCreationForm, self).save(commit=False)
+        user = super(CustomUserCreationForm, self).save(commit=False)
         user.username = self.cleaned_data['username']
         user.email = self.cleaned_data['email']
-        user.set_password(self.cleaned_data['password'])
-
+        user.set_password(self.cleaned_data['password1'])
+        
         if commit:
             self.user.save()
             EmailVerification.objects.create(user=user)

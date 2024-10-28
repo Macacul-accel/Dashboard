@@ -12,11 +12,11 @@ import uuid
 
 
 def homepage(request):
-    return render(request, 'home')
+    return render(request, 'home.html')
 
 def signup(request):
     if request.method == 'POST':
-        form = forms.UserCreationForm(request.POST)
+        form = forms.CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
 
@@ -32,11 +32,11 @@ def signup(request):
             email = EmailMessage(email_subject, email_body, to=[user.email])
             email.send(fail_silently=False)
 
-            return redirect('email_confirmation')
+            return redirect('email_confirmation.html')
         
     else:
         form = forms.UserCreationForm()
-    return render(request, 'signup', {'form': form})
+    return render(request, 'signup.html', {'form': form})
 
 def activate_account(request, token):
     try:
@@ -94,11 +94,10 @@ def user_login(request):
             if user is not None:
                 login(user)
                 return redirect('home')
-            else:
-                form.add_error(None, "Attention, un des champs rentré n'est pas correct")
+            messages.error("Attention, un des champs rentré n'est pas correct")
     else:
         form = forms.LoginForm()
-    return render(request, 'login', {'form': form})
+    return render(request, 'login.html', {'form': form})
 
 def user_logout(request):
     logout(request)
@@ -106,23 +105,26 @@ def user_logout(request):
     return redirect('home')
 
 def confirmation_sent(request):
-    return render(request, 'email_confirmation')
+    return render(request, 'email_confirmation.html')
 
 def activation_failed(request, user_id):
     context = {'user_id': user_id}
-    return render(request, 'activation_failed', context)
+    return render(request, 'activation_failed.html', context)
 
 def activation_succeed(request):
-    return render(request, 'activation_succeed')
+    return render(request, 'activation_succeed.html')
+
+def features(request):
+    return render(request, 'features.html')
 
 @login_required
 def profile(request):
     user = User.objects.get(id=user.id).username
-    return render(request, 'profile', {'username': user})
+    return render(request, 'profile.html', {'username': user})
 
 @login_required
 def profile_settings(request):
-    return render(request, 'profile_settings')
+    return render(request, 'profile_settings.html')
 
 @login_required
 def change_email(request):
@@ -146,3 +148,5 @@ def change_password(request):
     else:
         return render(request, 'profile_settings', {'form': form})
 
+#@login_required
+#def dashboard_view(request):
