@@ -1,0 +1,26 @@
+html,
+
+
+
+#notification-container {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 9999;
+    width: auto;
+}
+
+.alert {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #949494;
+    color: #333;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    transition: opacity 0.5s ease;
+}
+
+.alert.hide {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}

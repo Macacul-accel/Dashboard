@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Homepage{% endblock title %}
+
+
+{% block main %}
+    <main>
+      <div class="container px-4 py-5">
+        <h2 class="pb-2 border-bottom">Fonctionnalités à venir</h2>
+    
+        <div class="row row-cols-1 row-cols-md-2 align-items-md-center g-5 py-5">
+          <div class="col d-flex flex-column align-items-start gap-2">
+            <h2 class="fw-bold text-body-emphasis">Le plaisir du partage des decks</h2>
+            <p class="text-body-secondary">Chaque duelliste aimerait avoir un avis et des conseils sur son deck, chacun pourra alors créer des deck selon ses envies et les partager avec la communauté</p>
+          </div>
+    
+          <div class="col">
+            <div class="row row-cols-1 row-cols-sm-2 g-4">
+              <div class="col d-flex flex-column gap-2">
+                <div class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-4 rounded-3">
+                  <a aria-disabled="true"><i class="bi bi-collection"></i></a>
+                </div>
+                <h4 class="fw-semibold mb-0 text-body-emphasis">Deck partagés</h4>
+                <p class="text-body-secondary">Les deck partagés par la communauté seront visibles et pourront être copiés, pour personnaliser le deck selon sa façon de jouer</p>
+              </div>
+    
+              <div class="col d-flex flex-column gap-2">
+                <div class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-4 rounded-3">
+                  <a aria-disabled="true"><i class="bi bi-gear-fill"></i></a>
+                </div>
+                <h4 class="fw-semibold mb-0 text-body-emphasis">Construction de deck</h4>
+                <p class="text-body-secondary">Laissez parler vos envies, créez vos decks de rêves</p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+{% endblock main %}

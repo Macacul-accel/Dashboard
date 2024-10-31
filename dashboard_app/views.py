@@ -92,16 +92,16 @@ def user_login(request):
             password = form.cleaned_data['password']
             user = authenticate(request, email=email, password=password)
             if user is not None:
-                login(user)
+                login(request, user)
                 return redirect('home')
-            messages.error("Attention, un des champs rentré n'est pas correct")
+            else:
+                messages.error(request, "Attention, un des champs rentré n'est pas correct")
     else:
         form = forms.LoginForm()
     return render(request, 'login.html', {'form': form})
 
 def user_logout(request):
     logout(request)
-    messages.success("Vous êtes déconnectés!")
     return redirect('home')
 
 def confirmation_sent(request):
@@ -119,7 +119,7 @@ def features(request):
 
 @login_required
 def profile(request):
-    user = User.objects.get(id=user.id).username
+    user = User.objects.get(id=request.user.id).username
     return render(request, 'profile.html', {'username': user})
 
 @login_required
@@ -133,6 +133,7 @@ def change_email(request):
         form = forms.ChangeEmailForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
+            messages.success(request, "Votre mail a bien été modifié, votre mail pour vous connectez sera celui que vous venez de renseigner")
             return redirect('profile')
     else:
         return render(request, 'profile_settings', {'form': form})
@@ -144,6 +145,7 @@ def change_password(request):
         form = forms.ChangePasswordForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
+            messages.success(request, "Votre mot de passe a bien été modifié, votre mot de passe pour vous connectez sera celui que vous venez de renseigner")
             return redirect('profile')
     else:
         return render(request, 'profile_settings', {'form': form})

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Homepage{% endblock title %}
+
+{% block head %}
+    {{ block.super }}
+    <link href="{% static 'css/home.css' %}" rel="stylesheet">
+{% endblock head %}
+
+{% block logged_user %}
+    <main class="px-3 text-center">
+        <h1>Bienvenue {{ request.user.username }}!</h1>
+        <p class="lead">Que veux-tu faire ? Rechercher certaines cartes ? Partager un deck ? Je te laisse voir en haut à droite ;)</p>
+    </main>
+{% endblock logged_user %}
+    
+{% block not_logged %}
+    <main class="px-3 text-center">
+        <h1>Bienvenue duelliste!</h1>
+        <p class="lead">Le site ultime pour tous les fans du jeu de carte Yu-gi-oh!. Pour avoir accès à toutes les fonctionnalités, inscrivez-vous.</p>
+        <p class="lead">
+            <a href="{% url 'signup' %}"><button class="btn btn-lg btn-light fw-bold">M'inscrire</button></a>
+            <a href="{% url 'login' %}"><button class="btn btn-lg btn-light fw-bold">Me connecter</button></a>
+        </p>
+    </main>
+{% endblock not_logged %}
+    
+{% block footer %}
+    <footer class="mt-auto text-center text-white-50">
+      <p>Created with <a href="https://www.djangoproject.com/" class="text-white">Django</a>, by <a href="https://github.com/Macacul-accel/Dashboard" class="text-white">Macacul</a>.</p>
+    </footer>
+{% endblock footer %}

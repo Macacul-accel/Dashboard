@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL link activate</title>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="{% static 'css/bootstrap-icons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/activation.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div>
+        <h1>Le mail d'activation a été envoyé!</h1>
+        <p>Cliquez sur le lien du mail pour activer votre compte. Vous ne trouvez pas le mail ? Vérifiez dans les courriers indésirables.</p>
+        <a href="{% url 'login' %}"><button class="btn btn-lg btn-light fw bold">Me connecter</button></a>
+    </div>
+
+    <script src="{% static 'js/custom.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

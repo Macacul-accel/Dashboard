@@ -11,8 +11,13 @@
     <link href="{% static 'css/bootstrap-icons.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/signup.css' %}" rel="stylesheet">
 </head>
-{% block content %}
+
 <body class="d-flex align-items-center py-4">
+    <div class="position-fixed" style="top: 10px; left:10px;">
+        <a href="{% url 'home' %}">
+            <i class="bi bi-arrow-left"></i>Retour à la page d'accueil
+        </a>
+    </div>
     <main class="form-signup w-100 m-auto">
         <form method="post">
             {% csrf_token %}
@@ -67,24 +72,14 @@
                 <label class="form-check-label" for="flexSwitchCheckDefault">Afficher le mot de passe</label>
             </div>
 
-            <button class="btn btn-primary w-100 py-2" type="submit">S'inscrire</button>
+            <button class="btn btn-light w-100 py-2" type="submit">S'inscrire</button>
 
-            <p><a href="{% url 'login' %}">Se connecter</a></p>
+            <p>Déjà un compte ? <a href="{% url 'login' %}">Se connecter</a></p>
         </form>
     </main>
-    <script>
-        function togglePasswordVisibility(password1Id, password2Id, switchId) {
-            var password1Field = document.getElementById(password1Id);
-            var password2Field = document.getElementById(password2Id);
-            var passwordSwitch = document.getElementById(switchId);
-            if (passwordSwitch) {
-                var type = passwordSwitch.checked ? "text" : "password";
-                password1Field.type = type;
-                password2Field.type = type;
-            }
-        }
-    </script>
+    
+    <script src="{% static 'js/custom.js' %}"></script>
     <script src="{% static 'js/bootstrap.bundle.min.js' %}" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    {% endblock %}
+
 </body>
 </html>
