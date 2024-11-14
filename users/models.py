@@ -7,11 +7,11 @@ from django.utils import timezone
 #Store email verification token for user registration
 class EmailVerification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    verifaction_token = models.UUIDField(
+    verification_token = models.UUIDField(
         default=uuid.uuid4, editable=False, unique=True
     )
     created_at = models.DateTimeField(auto_now_add=True)
-    verified_at = models.BooleanField(default=False)
+    verified = models.BooleanField(default=False)
 
     @property
     def token_expiration_time(self):

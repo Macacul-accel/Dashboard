@@ -4,7 +4,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
-from django.core.mail import EmailMessage
+from django.conf import settings
+from django.core.mail import send_mail
 from django.contrib import messages
 from .models import EmailVerification
 from . import forms
@@ -21,21 +22,21 @@ def signup(request):
             user = form.save()
 
             email_verification = EmailVerification.objects.get(user=user)
-            token = email_verification.verifaction_token
+            token = email_verification.verification_token
 
-            activation_url = request.build_absolute_url(
+            activation_url = request.build_absolute_uri(
                 reverse('activate_account', args=[token])
             )
 
             email_subject = "Activez votre compte"
             email_body = f"Bonjour {user.username},\n\nCliquez sur le lien pour activer votre compte:\n\n {activation_url}"
-            email = EmailMessage(email_subject, email_body, to=[user.email])
-            email.send(fail_silently=False)
+            email_from = settings.DEFAULT_FROM_EMAIL
+            send_mail(email_subject, email_body, email_from, [user.email], fail_silently=False)
 
-            return redirect('email_confirmation.html')
+            return redirect('email_confirmation')
         
     else:
-        form = forms.UserCreationForm()
+        form = forms.CustomUserCreationForm()
     return render(request, 'signup.html', {'form': form})
 
 def activate_account(request, token):
@@ -66,17 +67,17 @@ def resend_activation_email(request, user_id):
         user = User.objects.get(id=user_id)
         email_verification = EmailVerification.objects.create(user=user)
 
-        email_verification.verifaction_token = uuid.uuid4()
+        email_verification.verification_token = uuid.uuid4()
         email_verification.save()
 
         activation_url = request.build_absolute_uri(
-            reverse('activate_account', args=[email_verification.verifaction_token])
+            reverse('activate_account', args=[email_verification.verification_token])
         )
 
         email_subject = "Activez votre compte"
         email_body = f"Bonjour {user.username},\n\nCliquez sur le lien pour activer votre compte:\n\n {activation_url}"
-        email = EmailMessage(email_subject, email_body, to=[user.email])
-        email.send(fail_silently=False)
+        email_from = settings.DEFAULT_FROM_EMAIL
+        send_mail(email_subject, email_body, email_from, [user.email], fail_silently=False)
         messages.success("Vérifiez vos mails pour confirmer votre compte")
 
         return redirect('email_confirmation')
@@ -123,32 +124,23 @@ def profile(request):
     return render(request, 'profile.html', {'username': user})
 
 @login_required
-def profile_settings(request):
-    return render(request, 'profile_settings.html')
-
-@login_required
 def change_email(request):
-    form = forms.ChangeEmailForm()
     if request.method == 'POST':
-        form = forms.ChangeEmailForm(request.POST, user=request.user)
+        form = forms.ChangeEmailForm(user=request.user, data=request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, "Votre mail a bien été modifié, votre mail pour vous connectez sera celui que vous venez de renseigner")
             return redirect('profile')
     else:
-        return render(request, 'profile_settings', {'form': form})
+        return render(request, 'profile', {'form': form})
     
 @login_required
 def change_password(request):
-    form = forms.ChangePasswordForm()
     if request.method == 'POST':
-        form = forms.ChangePasswordForm(request.POST, user=request.user)
+        form = forms.ChangePasswordForm(user=request.user, data=request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, "Votre mot de passe a bien été modifié, votre mot de passe pour vous connectez sera celui que vous venez de renseigner")
             return redirect('profile')
     else:
-        return render(request, 'profile_settings', {'form': form})
-
-#@login_required
-#def dashboard_view(request):
+        return render(request, 'profile', {'form': form})

@@ -1,19 +1,18 @@
-<div class="cover-container min-vh-100 w-100 p-3 mx-auto">
   <header class="mb-auto">
-      <div class="d-flex justify-content-between align-items-start w-100">
-        <h3 class="mb-0 move-left">Yugi-Django</h3>
-        <nav class="nav nav-masthead justify-content-center flex-grow-1">
+      <div class="d-flex justify-content-between align-items-center">
+        <h3 class="mt-auto ms-3">Yugi-Django</h3>
+        <nav class="nav nav-masthead mt-auto flex-grow-1 justify-content-center mx-4">
           <a class="nav-link fw-bold py-2 px-3 {% if request.resolver_match.url_name == 'home' %}active{% endif %}"" href="{% url 'home' %}">Accueil</a>
           <a class="nav-link fw-bold py-2 px-3" aria-disabled="true">Cartes</a>
           <a class="nav-link fw-bold py-2 px-3" aria-disabled="true">Deck partagés</a>
           <a class="nav-link fw-bold py-2 px-3" aria-disabled="true">Construction de deck</a>
           <a class="nav-link fw-bold py-2 px-3 {% if request.resolver_match.url_name == 'features' %}active{% endif %}" href="{% url 'features' %}" >À venir</a>
         </nav>
-          <div class="navbar-nav move-user-icon">
-            <a class="nav-link dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false" onclick="toggleDropdown(event)">
+          <div class="navbar-nav me-3">
+            <a class="nav-link dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="bi bi-person-circle"></i>
             </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown" id="userDropdownMenu" style="display: none;">
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
               <li><a class="dropdown-item" href="{% url 'profile' %}">Profil</a></li>
               <li><a class="dropdown-item" href="{% url 'logout' %}">Déconnexion</a></li>
             </ul>

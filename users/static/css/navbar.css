@@ -3,22 +3,6 @@ header {
     width: 100%;
 }
 
-.cover-container {
-    max-width: 50em;
-    display: flex;
-    height: 100%;
-    flex-direction: column;
-}
-
- .move-left {
-    margin-left: -235px;
-}
-
-.move-user-icon {
-    margin-right: -250px;
-    margin-top: -10px;
-}
-
 .nav-masthead .nav-link {
     color: rgba(255, 255, 255, .5);
     border-bottom: .25rem solid transparent;

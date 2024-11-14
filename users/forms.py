@@ -29,20 +29,24 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password']
+        fields = ['username', 'email', 'password1', 'password2']
 
     #So there is no 2 users with the same username or the same email
     def clean_username(self):
         username = self.cleaned_data.get('username')
 
         if User.objects.filter(username=username).exists():
-            raise forms.ValidationError("Ce nom d'utilisateur existe déjà")
+            self.add_error('username', "Ce nom d'utilisateur existe déjà")
+
+        return username
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
 
         if User.objects.filter(email=email).exists():
             self.add_error('email', "Cette adresse mail existe déjà")
+        
+        return email
 
     #The password should contain at least one uppercase letter, one lowercase letter and one digit
     def clean_password(self):
@@ -56,6 +60,8 @@ class CustomUserCreationForm(UserCreationForm):
             self.add_error('password1',
             "Votre MDP doit contenir au moins une lettre majuscule, une lettre minuscule ainsi qu'un chiffre."
             )
+        
+        return password
     
     def save(self, commit=True):
         user = super(CustomUserCreationForm, self).save(commit=False)
@@ -64,10 +70,10 @@ class CustomUserCreationForm(UserCreationForm):
         user.set_password(self.cleaned_data['password1'])
         
         if commit:
-            self.user.save()
+            user.save()
             EmailVerification.objects.create(user=user)
 
-        return self.user
+        return user
     
 
 #The user can login with his email

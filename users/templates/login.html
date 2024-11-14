@@ -49,7 +49,17 @@
             </form>
         </main>
 
-        <script src="{% static 'js/custom.js' %}"></script>
+        <script>
+        function togglePasswordVisibility(passwordId, switchId) {
+            var passwordField = document.getElementById(passwordId);
+            var passwordSwitch = document.getElementById(switchId);
+
+            if (passwordSwitch) {
+                var type = passwordSwitch.checked ? "text" : "password";
+                passwordField.type = type;
+            }
+        }
+        </script>
         <script src="{% static 'js/bootstrap.bundle.min.js' %}" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     
 </body>
