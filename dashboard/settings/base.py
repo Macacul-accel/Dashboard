@@ -28,7 +28,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'users',
-    'cards'
+    'cards',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -112,7 +113,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'users/static']
+STATICFILES_DIRS = [
+    (BASE_DIR / 'users/static'),
+    (BASE_DIR / 'cards/static'),
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'cards/media')

@@ -17,24 +17,27 @@ class Command(BaseCommand):
             missing_image_cards = Card.objects.filter(image='card_images/default.jpg')
             card_data_dict = {card_data['name']: card_data for card_data in image_data}
             
-            for card in missing_image_cards:
-                card_data = card_data_dict.get(card.name)
-                try:
-                    if card_data.get('card_images'):
-                        image_url = card_data['card_images'][0]['image_url']
-                        if image_url:
-                            image_response = requests.get(image_url, timeout=120, stream=True)
-                            image_response.raise_for_status()
-                            
-                            image_name = re.sub(r'[^a-zA-Z0-9_-]', '', card.name) + '.jpg'
-                            image_content = ContentFile(image_response.content)
-                            card.image.save(image_name, image_content, save=True)
-                            self.stdout.write(f"L'image pour la carte {card.name} a bien été enregistré")
+            def download_and_save_img(self, missing_list, field_name, url_key):
+                for card in missing_list:
+                    card_data = card_data_dict.get(card.name)
+                    try:
+                        if card_data.get('card_images'):
+                            image_url = card_data['card_images'][0][url_key]
+                            if image_url:
+                                image_response = requests.get(image_url, timeout=120, stream=True)
+                                image_response.raise_for_status()
+
+                                image_name = re.sub(r'[^a-zA-Z0-9_-]', '', card.name) + '.jpg'
+                                image_content = ContentFile(image_response.content)
+                                getattr(card, field_name).save(image_name, image_content, save=True)
+                                self.stdout.write(f"✅ {field_name.capitalize()} pour la carte {card.name} a bien été enregistré")
+                            else:
+                                self.stderr.write(f"❌ Il n'y a pas d'url disponible pour {card.name}")
                         else:
-                            self.stderr.write(f"Il n'y a pas d'url disponible pour {card.name}")
-                    else:
-                         self.stderr.write(f"Il n'y pas d'image pour {card.name}")
-                except Exception as error:
-                    self.stderr.write(f"Erreur dans le téléchargement de la carte {card.name}: {error}")
+                             self.stderr.write(f"❌ Il n'y pas de {field_name} pour {card.name}")
+                    except Exception as error:
+                        self.stderr.write(f"❌ Erreur dans le téléchargement {field_name} de la carte {card.name}: {error}")
                     
-            self.stdout.write("Les images ont bien été enregistrées")
+                self.stdout.write("✅ Les images ont bien été enregistrées")
+
+            download_and_save_img(self, missing_image_cards, 'image', 'image_url')
