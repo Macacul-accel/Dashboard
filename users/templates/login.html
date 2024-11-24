@@ -12,17 +12,17 @@
     <link href="{% static 'css/login.css' %}" rel="stylesheet">
 </head>
 
-<body class="d-flex align-items-center py-4">
+<body class="d-flex align-items-center py-5">
     
         <div class="position-fixed" style="top: 10px; left:10px;">
             <a href="{% url 'home' %}">
                 <i class="bi bi-arrow-left"></i>Retour à la page d'accueil
             </a>
         </div>
-        <main class="form-signin w-100 m-auto">
+        <main class="form-signin w-100 m-auto py-5">
             <form method="post">
                 {% csrf_token %}
-                <h1>Connexion</h1>
+                <h1 class="py-4">Connexion</h1>
                 {% if messages %}
                     {% for message in messages %}
                     <div class="alert alert-danger {{ message.tags }}">{{ message }}</div>
@@ -60,6 +60,7 @@
             }
         }
         </script>
+        <script src="{% static 'js/custom.js' %}"></script>
         <script src="{% static 'js/bootstrap.bundle.min.js' %}" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     
 </body>

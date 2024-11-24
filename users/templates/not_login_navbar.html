@@ -2,8 +2,8 @@
     <div class="d-flex justify-content-between align-items-center">
       <h3 class="mt-auto ms-3">Yugi-Django</h3>
       <nav class="nav nav-masthead mt-auto flex-grow-1 justify-content-center mx-4">
-        <a class="nav-link fw-bold py-2 px-3 {% if request.resolver_match.url_name == 'home' %}active{% endif %}"" href="{% url 'home' %}">Accueil</a>
-        <a class="nav-link fw-bold py-2 px-3" aria-disabled="true">Cartes</a>
+        <a class="nav-link fw-bold py-2 px-3 {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">Accueil</a>
+        <a class="nav-link fw-bold py-2 px-3 {% if request.resolver_match.url_name == 'cards_list' %}active{% endif %}" href="{% url 'cards_list' %}">Cartes</a>
         <a class="nav-link fw-bold py-2 px-3" aria-disabled="true">Deck partagés</a>
         <a class="nav-link fw-bold py-2 px-3" aria-disabled="true">Construction de deck</a>
         <a class="nav-link fw-bold py-2 px-3 {% if request.resolver_match.url_name == 'features' %}active{% endif %}" href="{% url 'features' %}" >À venir</a>
