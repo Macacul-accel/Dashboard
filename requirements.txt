@@ -12,7 +12,7 @@ cffi==1.17.1
 charset-normalizer==3.4.0
 confusable-homoglyphs==3.3.1
 Django==5.1.2
-django-crispy-forms==2.3
+django-cors-headers==4.6.0
 django-filter==24.3
 django-paginator==0.2a3
 django-phonenumber-field==8.0.0

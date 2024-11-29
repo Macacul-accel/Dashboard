@@ -34,7 +34,7 @@ class Command(BaseCommand):
                             else:
                                 self.stderr.write(f"❌ Il n'y a pas d'url disponible pour {card.name}")
                         else:
-                             self.stderr.write(f"❌ Il n'y pas de {field_name} pour {card.name}")
+                            self.stderr.write(f"❌ Il n'y pas de {field_name} pour {card.name}")
                     except Exception as error:
                         self.stderr.write(f"❌ Erreur dans le téléchargement {field_name} de la carte {card.name}: {error}")
                     

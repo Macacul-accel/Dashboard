@@ -26,10 +26,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'crispy_forms',
     'users',
     'cards',
     'django_filters',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -40,6 +40,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'dashboard.urls'
@@ -114,12 +115,12 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    (BASE_DIR / 'users/static'),
-    (BASE_DIR / 'cards/static'),
+    BASE_DIR / 'users/static',
+    BASE_DIR.parent / 'frontend/dist',
 ]
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'cards/media')
+MEDIA_ROOT = os.path.join(BASE_DIR.parent, 'backend/cards/media')
 
 
 # Default primary key field type
@@ -146,3 +147,5 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 DEFAULT_FROM_EMAIL = config('FROM_EMAIL')
+
+CORS_ALLOW_ALL_ORIGINS = False  # Allow all origins (for development)

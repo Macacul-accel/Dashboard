@@ -4,7 +4,8 @@ from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
-    path('cards-list/', views.CardFilteredListView.as_view(), name='cards_list'),
+    path('cards-list/', views.cards_browser, name='cards_browser'),
+    path('api/card/', views.CardFilteredListView.as_view(), name='cards_list_api'),
 ]
 
 if settings.DEBUG:
