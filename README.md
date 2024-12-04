@@ -43,9 +43,9 @@ Pouvoir partager avec la communauté de joueurs les decks crées par chacun.
     ```
 
 6. **Lancer le serveur**
-   ```bash
-   python manage.py runserver
-   ```
+    ```bash
+    python manage.py runserver
+    ```
 
 7. **Accès au site**
-   Open your browser and go to `http://127.0.0.1:8000/`.
+    Ouvrez votre navigateur et rentrez dans la barre de recherche: `http://127.0.0.1:8000/`.
