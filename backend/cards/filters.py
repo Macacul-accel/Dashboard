@@ -30,18 +30,22 @@ class CardFilterSet(FilterSet):
     )
     attack = RangeFilter(
         label="Attaque",
-        method='filter_range_atk_def',
+        field_name='attack',
+        method='filter_range',
         widget=RangeWidget(attrs={'class': 'range-slider'}),
         required=False,
     )
     defense = RangeFilter(
         label="Défense",
-        method='filter_range_atk_def',
+        field_name='defense',
+        method='filter_range',
         widget=RangeWidget(attrs={'class': 'range-slider'}),
         required=False,
     )
     level_rank = RangeFilter(
         label="Niveau/Rang",
+        field_name='level_rank',
+        method='filter_range',
         widget=RangeWidget(attrs={'class': 'range-slider'}),
         required=False,
     )
@@ -102,44 +106,19 @@ class CardFilterSet(FilterSet):
         return queryset.filter(card_sets__set__code=value).distinct()
     
     
-    def filter_range_atk_def(self, queryset, name, value):
-        """Filter attack and defense by min and max values."""
-        if value:
-            min_value, max_value = value
+    def filter_range(self, queryset, name, value):
+        """Filter lvl_rank, attack and defense by min and max values."""
+        if isinstance(value, slice):
+            min_value = value.start
+            max_value = value.stop
 
             min_value = int(min_value) if min_value else None
             max_value = int(max_value) if max_value else None
 
-            if min_value is None:
-                min_value = 0
-            if max_value is None:
-                max_value = 5000
-
             if min_value is not None:
-                queryset = queryset.filter(**{f"{name}__gte": min_value})
+                queryset =  queryset.filter(**{f"{name}__gte": min_value})
 
             if max_value is not None:
-                queryset = queryset.filter(**{f"{name}__lte": max_value})
-
-        return queryset
-    
-    def filter_lvl(self, queryset, name, value):
-        """Filter level_rank by min and max values."""
-        if value:
-            min_value, max_value = value
-
-            min_value = int(min_value) if min_value else None
-            max_value = int(max_value) if max_value else None
-
-            if min_value is None:
-                min_value = 1
-            if max_value is None:
-                max_value = 13
-
-            if min_value is not None:
-                queryset = queryset.filter(level_rank__gte=min_value)
-
-            if max_value is not None:
-                queryset = queryset.filter(level_rank__lte=max_value)
+                queryset =  queryset.filter(**{f"{name}__lte": max_value})
 
         return queryset

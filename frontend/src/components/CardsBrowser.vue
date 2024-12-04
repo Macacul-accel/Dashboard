@@ -1,12 +1,19 @@
 <template>
-    <div>
+    <div class="container">
         <filter-form :filters="filters" @apply-filters="applyFilters" @reset-filters="resetFilters"></filter-form>
         <app-pagination v-if="!loading && pagination.totalPages > 1"
             :current-page="pagination.currentPage"
             :total-pages="pagination.totalPages"
+            :total-cards="pagination.totalCards"
             @change-page="fetchCards"
         ></app-pagination>
         <card-list :cards="cards" :loading="loading"></card-list>
+        <app-pagination v-if="!loading && pagination.totalPages > 1"
+            :current-page="pagination.currentPage"
+            :total-pages="pagination.totalPages"
+            :total-cards="pagination.totalCards"
+            @change-page="fetchCards"
+        ></app-pagination>
     </div>
 </template>
 
@@ -32,9 +39,10 @@ export default {
                 defenseMax: '',
                 levelMin: '',
                 levelMax: '',
+                limit: 20,
             },
             cards: [],
-            pagination: { currentPage: 1, totalPages: 0 },
+            pagination: { currentPage: 1, totalPages: 0, totalCards: 20 },
             loading: false,
         };
     },
@@ -48,12 +56,13 @@ export default {
                 type: this.filters.type,
                 monster_race: this.filters.monster_race,
                 attribute: this.filters.attribute,
-                attack_0: this.filters.attackMin,
-                attack_1: this.filters.attackMax,
-                defense_0: this.filters.defenseMin,
-                defense_1: this.filters.defenseMax,
-                level_0: this.filters.levelMin,
-                level_1: this.filters.levelMax,
+                attack_min: this.filters.attackMin,
+                attack_max: this.filters.attackMax,
+                defense_min: this.filters.defenseMin,
+                defense_max: this.filters.defenseMax,
+                level_rank_min: this.filters.levelMin,
+                level_rank_max: this.filters.levelMax,
+                limit: this.filters.limit,
                 page,
                 json: 'true',
             }).toString();
@@ -64,13 +73,14 @@ export default {
                     'x-requested-with': 'XMLHttpRequest',  // Indicate AJAX request
                 },
             })
-                .then(response => response.json())
-                .then(data => {
+            .then(response => response.json())
+            .then(data => {
                 console.log(data);
                     this.cards = data.items;
                     this.pagination = {
                         currentPage: data.pagination.current_page,
                         totalPages: data.pagination.total_pages,
+                        totalCards: data.pagination.total_items,
                     };
                     this.loading = false
                 })
@@ -97,6 +107,7 @@ export default {
                 defenseMax: '',
                 levelMin: '',
                 levelMax: '',
+                limit: this.filters.limit,
             };
             this.fetchCards(1);
         }

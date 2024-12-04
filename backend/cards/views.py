@@ -5,6 +5,8 @@ from django.template.loader import render_to_string
 from django.http import JsonResponse, HttpResponseServerError
 from .models import Card
 from .filters import CardFilterSet
+from django.conf import settings
+
 
 class CardFilteredListView(FilterView):
     model = Card
@@ -56,7 +58,24 @@ class CardFilteredListView(FilterView):
                 if self.request.GET.get('json', 'false') == 'true':
                     # Send the filtered, paginated data as JSON
                     data = {
-                        'items': list(context['page_obj'].object_list.values()),  # Convert QuerySet to list of dicts
+                        'items': [
+                            {
+                                'id': obj.id,
+                                'name': obj.name,
+                                'type': obj.type,
+                                'frame_type': obj.frame_type,
+                                'effect': obj.effect,
+                                'attack': obj.attack,
+                                'defense': obj.defense,
+                                'level_rank': obj.level_rank,
+                                'spell_trap_race': obj.spell_trap_race,
+                                'monster_race': obj.monster_race,
+                                'attribute': obj.attribute,
+                                'archetype': obj.archetype,
+                                'image': f"{settings.MEDIA_URL}{obj.image}",
+                            }
+                            for obj in context['page_obj'].object_list
+                        ],
                         'pagination': {
                             'current_page': context['page_obj'].number,
                             'total_pages': context['paginator'].num_pages,

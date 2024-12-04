@@ -120,7 +120,7 @@ STATICFILES_DIRS = [
 ]
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR.parent, 'backend/cards/media')
+MEDIA_ROOT = BASE_DIR / 'cards/media'
 
 
 # Default primary key field type
