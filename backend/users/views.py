@@ -93,8 +93,15 @@ def user_login(request):
             password = form.cleaned_data['password']
             user = authenticate(request, email=email, password=password)
             if user is not None:
-                login(request, user)
-                return redirect('home')
+                try:
+                    email_verification = EmailVerification.objects.get(user=user)
+                    if email_verification.verified:
+                        login(request, user)
+                        return redirect('home')
+                    else:
+                        messages.error(request, "Vous n'avez pas encore activé votre compte")
+                except EmailVerification.DoesNotExist:
+                    messages.error(request, "Erreur d'activation du compte. Veuillez vérifier dans vos mails")
             else:
                 messages.error(request, "Attention, un des champs rentré n'est pas correct")
     else:
@@ -119,20 +126,18 @@ def features(request):
     return render(request, 'features.html')
 
 @login_required
-def profile(request):
-    user = User.objects.get(id=request.user.id).username
-    return render(request, 'profile.html', {'username': user})
-
-@login_required
 def change_email(request):
     if request.method == 'POST':
         form = forms.ChangeEmailForm(user=request.user, data=request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, "Votre mail a bien été modifié, votre mail pour vous connectez sera celui que vous venez de renseigner")
-            return redirect('profile')
+            return redirect('home')
+        else:
+            return render(request, 'change_email.html', {'form': form})
     else:
-        return render(request, 'profile', {'form': form})
+        form = forms.ChangeEmailForm(user=request.user)
+        return render(request, 'change_email.html', {'form': form})
     
 @login_required
 def change_password(request):
@@ -141,6 +146,9 @@ def change_password(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Votre mot de passe a bien été modifié, votre mot de passe pour vous connectez sera celui que vous venez de renseigner")
-            return redirect('profile')
+            return redirect('home')
+        else:
+            return render(request, 'change_password.html', {'form': form})
     else:
-        return render(request, 'profile', {'form': form})
+        form = forms.ChangePasswordForm(user=request.user)
+        return render(request, 'change_password.html', {'form': form})

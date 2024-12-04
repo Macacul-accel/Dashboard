@@ -12,7 +12,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 from decouple import config
-import os
+import ssl
+import certifi
+from django.core.mail import get_connection
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -97,6 +99,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'users.backends.EmailAuthBackend',
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
@@ -139,6 +144,7 @@ PASSWORD_HASHERS = [
 LOGIN_URL = 'login'
 LOGOUT_URL = 'home'
 
+context = ssl.create_default_context(cafile=certifi.where())
 
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_HOST_USER = 'apikey'
@@ -147,5 +153,16 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 DEFAULT_FROM_EMAIL = config('FROM_EMAIL')
+
+
+email_connection = get_connection(
+    backend=EMAIL_BACKEND,
+    use_tls=EMAIL_USE_TLS,
+    port=EMAIL_PORT,
+    host=EMAIL_HOST,
+    username=EMAIL_HOST_USER,
+    password=EMAIL_HOST_PASSWORD,
+    ssl_context=context,
+)
 
 CORS_ALLOW_ALL_ORIGINS = False  # Allow all origins (for development)

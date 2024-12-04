@@ -14,6 +14,6 @@ class EmailVerification(models.Model):
     verified = models.BooleanField(default=False)
 
     @property
-    def token_expiration_time(self):
+    def is_token_expired(self):
         expiration_time = timezone.timedelta(minutes=15)
         return timezone.now() > self.created_at + expiration_time

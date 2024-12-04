@@ -12,5 +12,6 @@ urlpatterns = [
     path('activation-success/',views.activation_succeed, name='activation_succeed'),
     path('activation-failure/', views.activation_failed, name='activation_failed'),
     path('a-venir/', views.features, name='features'),
-    path('profile/', views.profile, name='profile'),
+    path('profile/change_email', views.change_email, name='change_email'),
+    path('profile/change_password', views.change_password, name='change_password'),
 ]
