@@ -16,6 +16,16 @@ class Command(BaseCommand):
 
             missing_image_cards = Card.objects.filter(image='card_images/default.jpg')
             card_data_dict = {card_data['name']: card_data for card_data in image_data}
+
+            print("Choisissez la taille de l'image à télécharger:")
+            print("1. Grande taille (large)")
+            print("2. Petite taille (small)")
+            choice = input("Entrez votre choix (1 ou 2): ")
+
+            while choice not in ['1', '2']:
+                choice = input("Choix invalide. Veuillez entrer 1 ou 2: ")
+
+            url_key = 'image_url' if choice == '1' else 'image_url_small'
             
             def download_and_save_img(self, missing_list, field_name, url_key):
                 for card in missing_list:
@@ -40,4 +50,4 @@ class Command(BaseCommand):
                     
                 self.stdout.write("✅ Les images ont bien été enregistrées")
 
-            download_and_save_img(self, missing_image_cards, 'image', 'image_url')
+            download_and_save_img(self, missing_image_cards, 'image', url_key)
