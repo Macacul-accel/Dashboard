@@ -33,13 +33,13 @@ Pouvoir partager avec la communauté de joueurs les decks crées par chacun.
     python manage.py migrate
     ```
 
-5. **Récupérer les données de l'API (!Les images occupent beaucoup d'espaces!) **
+5. **Récupérer les données de l'API (!Les images occupent beaucoup d'espaces!)**
     ```bash
     python manage.py fecth_cards # Récupére les données de toutes les cartes qui ne sont pas dans la bdd
     ```
     Lorsque la récupération des données est terminée
     ```bash
-    python manage.py fetch_images # Choisissez l'option 2 pour éviter d'occuper trop d'espace
+    python manage.py fetch_images # Modifiez le fichier et choisissez l'option 2 pour éviter d'occuper trop d'espace
     ```
 
 6. **Lancer le serveur**

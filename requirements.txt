@@ -15,11 +15,11 @@ Django==5.1.2
 django-cors-headers==4.6.0
 django-filter==24.3
 django-paginator==0.2a3
-django-phonenumber-field==8.0.0
 frozenlist==1.5.0
+gunicorn==23.0.0
 idna==3.10
 multidict==6.1.0
-phonenumbers==8.13.48
+packaging==24.2
 pillow==11.0.0
 propcache==0.2.0
 psycopg2==2.9.10
