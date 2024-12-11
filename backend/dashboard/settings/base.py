@@ -166,3 +166,13 @@ email_connection = get_connection(
 )
 
 CORS_ALLOW_ALL_ORIGINS = False  # Allow all origins (for development)
+
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply to all subdomains
+SECURE_HSTS_PRELOAD = True 
+
+SECURE_SSL_REDIRECT = True
+
+SESSION_COOKIE_SECURE = True
+
+CSRF_COOKIE_SECURE = True

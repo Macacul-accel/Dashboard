@@ -1,7 +1,7 @@
 from django_filters import FilterSet, CharFilter, ChoiceFilter, RangeFilter
 from django_filters.widgets import RangeWidget
 from django import forms
-from .models import Card, Set
+from .models import Card
 from .constant import *
 
 
@@ -67,18 +67,10 @@ class CardFilterSet(FilterSet):
         empty_label='Tous', 
         required=False,
     )
-    set_code = ChoiceFilter(
-        field_name='card_sets__set__code', 
-        label='Code du set', 
-        empty_label='Tous',
-        choices=lambda: [(set_.code, set_.name) for set_ in Set.objects.all()],
-        method='filter_by_set_code',
-        required=False,
-    )
 
     class Meta:
         model = Card
-        fields = ['name', 'type','frame_type', 'attack', 'defense', 'level_rank', 'spell_trap_race', 'monster_race', 'attribute', 'set_code']
+        fields = ['name', 'type','frame_type', 'attack', 'defense', 'level_rank', 'spell_trap_race', 'monster_race', 'attribute']
 
 
     def filter_by_frametype(self, queryset, name, value):
@@ -98,13 +90,6 @@ class CardFilterSet(FilterSet):
 
     def filter_by_monster_attribute(self, queryset, name, value):
         return filter_by_mapping(queryset, MONSTER_ATTRIBUTE_MAPPING, name, value, 'attribute')
-
-    def filter_by_set_code(self, queryset, name, value):
-        """
-        Filtre en fonction du code du set.
-        """
-        return queryset.filter(card_sets__set__code=value).distinct()
-    
     
     def filter_range(self, queryset, name, value):
         """Filter lvl_rank, attack and defense by min and max values."""
