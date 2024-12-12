@@ -15,6 +15,7 @@ Django==5.1.2
 django-cors-headers==4.6.0
 django-filter==24.3
 django-paginator==0.2a3
+django-redis==5.4.0
 frozenlist==1.5.0
 gunicorn==23.0.0
 idna==3.10
@@ -28,6 +29,7 @@ pycparser==2.22
 PyJWT==2.9.0
 python-decouple==3.8
 python-http-client==3.3.7
+redis==5.2.1
 requests==2.32.3
 setuptools==75.2.0
 soupsieve==2.6

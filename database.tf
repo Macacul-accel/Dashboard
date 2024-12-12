@@ -15,7 +15,7 @@ resource "aws_security_group" "rds_sg" {
     from_port   = 5432
     to_port     = 5432
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/16"] # Updated to "10.0.0.0/16"
+    cidr_blocks = ["0.0.0.0/0"] # Updated to "10.0.0.0/16"
   }
   egress {
     from_port   = 0
@@ -55,7 +55,7 @@ resource "aws_db_instance" "default" {
   db_subnet_group_name   = aws_db_subnet_group.default.name
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
   skip_final_snapshot    = true
-  publicly_accessible    = false # Changed to false for private access
+  publicly_accessible    = true # Changed to false for private access
   multi_az               = false
   tags = {
     Name = "Django_RDS_Instance"

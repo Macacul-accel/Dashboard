@@ -150,7 +150,7 @@ resource "aws_instance" "web" {
     docker pull 861276092462.dkr.ecr.eu-west-3.amazonaws.com/yugi-django:latest
 
     # Run the Docker container with the .env file
-    docker run -d -p 80:8000 --env-file /home/ec2-user/.env 861276092462.dkr.ecr.eu-west-3.amazonaws.com/yugi-django:latest
+    docker run -d -p 80:80 --env-file /home/ec2-user/.env 861276092462.dkr.ecr.eu-west-3.amazonaws.com/yugi-django:latest
   EOF
 
   tags = {
